@@ -4,6 +4,8 @@ const gulp = require('gulp'),
       sass = require('gulp-sass'),
       spritesmith = require('gulp.spritesmith'),
       rimraf = require('rimraf'),
+      autoprefixer = require('gulp-autoprefixer'),
+      sourcemaps = require('gulp-sourcemaps'),
       rename = require("gulp-rename");
 
 // Setup server
@@ -29,11 +31,20 @@ gulp.task('templates:compile', function buildHTML() {
 // Compile sass
 gulp.task('styles:compile', function () {
   return gulp.src('source/styles/main.scss')
+    .pipe(sourcemaps.init())
     .pipe(sass({
       outputStyle: 'compressed'
     }
     ).on('error', sass.logError))
+    .pipe(autoprefixer({
+      browsers: [
+        "> 1%",
+        "last 2 versions"
+      ],
+      cascade: false
+    }))
     .pipe(rename('main.min.css'))
+    .pipe(sourcemaps.write())
     .pipe(gulp.dest('build/css'));
 });
 
@@ -72,10 +83,11 @@ gulp.task('copy', gulp.parallel('copy:fonts', 'copy:images'));
 
 // Watchers
 gulp.task('watch', function() {
-  gulp.watch('source/template/**/*.pug', gulp.series('templates:compile'));
+  gulp.watch('source/templates/**/*.pug', gulp.series('templates:compile'));
   gulp.watch('source/styles/**/*.scss', gulp.series('styles:compile'));  
 });
 
+// Default task server + watchers
 gulp.task('default', gulp.series(
     'clean',
     gulp.parallel('templates:compile', 'styles:compile', 'sprite', 'copy'),
