@@ -50,10 +50,10 @@ gulp.task('styles:compile', function () {
 
 // Convert sprites
 gulp.task('sprite', function (cb) {
-  const spriteData = gulp.src('source/iamges/icons/*.png').pipe(spritesmith({
+  const spriteData = gulp.src('source/images/icons/*.png').pipe(spritesmith({
     imgName: 'sprite.png',
     imgPath: '../images/sprite.png',
-    cssName: 'sprite.css'
+    cssName: 'sprite.scss'
   }));
   
   spriteData.img.pipe(gulp.dest('build/images/'));
