@@ -6,7 +6,9 @@ const gulp = require('gulp'),
       rimraf = require('rimraf'),
       autoprefixer = require('gulp-autoprefixer'),
       sourcemaps = require('gulp-sourcemaps'),
-      rename = require("gulp-rename");
+      rename = require("gulp-rename"),
+      concat = require('gulp-concat'),
+      uglify = require('gulp-uglify');
 
 // Setup server
 gulp.task('server', function() {
@@ -17,6 +19,20 @@ gulp.task('server', function() {
       }
   });
   gulp.watch('build/**/*').on('change', browserSync.reload);
+});
+
+// Javascript
+gulp.task('js', function() {
+  return gulp.src([
+    'source/js/form.js',
+    'source/js/navigation.js',
+    'source/js/main.js'
+  ])
+  .pipe(sourcemaps.init())
+  .pipe(concat('main.min.js'))
+  .pipe(uglify())
+  .pipe(sourcemaps.write())
+  .pipe(gulp.dest('build/js'))
 });
 
 // Compile pug
@@ -85,12 +101,13 @@ gulp.task('copy', gulp.parallel('copy:fonts', 'copy:images'));
 gulp.task('watch', function() {
   gulp.watch('source/templates/**/*.pug', gulp.series('templates:compile'));
   gulp.watch('source/styles/**/*.scss', gulp.series('styles:compile'));  
+  gulp.watch('source/js/**/*.js', gulp.series('js'));
 });
 
 // Default task server + watchers
 gulp.task('default', gulp.series(
     'clean',
-    gulp.parallel('templates:compile', 'styles:compile', 'sprite', 'copy'),
+    gulp.parallel('templates:compile', 'styles:compile', 'js', 'sprite', 'copy'),
     gulp.parallel('watch', 'server')
   )
 );

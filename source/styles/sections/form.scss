@@ -31,7 +31,8 @@
 
   .arrow-down {
     @include center-xy();
-
+    color: #fff;
+    padding: 20px;  
     .fa {
       font-size: 2.5rem;
     }
