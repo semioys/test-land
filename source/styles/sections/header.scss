@@ -10,6 +10,17 @@
     flex-flow: row wrap;
     align-items: center;
     padding: 41px 0 32px;
+
+    @media (max-width: 1000px) {
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .button {
+      @media (max-width: 1080px) {
+        margin-right: 15px;
+      }
+    }
   }
 }
 
@@ -57,5 +68,16 @@
 
   &:hover {
     background-color: lighten($color: #1287bf, $amount: 10%)
+  }
+
+  .logo {
+    @media (max-width: 1080px) {
+      margin-right: 15px;
+    }
+
+    @media (max-width: 1000px) {
+      margin-left: 0;
+      margin-bottom: 15px;
+    }
   }
 }

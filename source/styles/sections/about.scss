@@ -2,21 +2,41 @@
   padding: 99px 0 105px 0;
   text-align: center;
 
+
+  @media (max-width: 960px) {
+    padding: 40px 0 30px 0;
+  }
+
   &__list {
     display: flex;
     flex-flow: row wrap;
     justify-content: space-between;
     margin: 0;
     padding: 0 50px;
+    @media (max-width: 960px) {
+      justify-content: center;  
+    }
   }
 
   &__item {
-    // width: 25%;
-    flex: 0 1 25%;
+    width: 27%;
+
+    @media (max-width: 960px) {
+      padding: 5px;
+      box-sizing: border-box;
+      width: 50%;
+      margin-bottom: 15px;
+    }
+
+    @media (max-width: 610px) {
+      width: 100%;
+      padding: 0;
+      margin-bottom: 10px;
+    }
   }
 
   &__header {
-    margin: 0 0 12px 0;
+    margin: 0 0 6px 0;
     font-size: 1.375rem;
     font-family: $ff-main-bold;
     color: #424242;
