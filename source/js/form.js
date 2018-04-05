@@ -19,5 +19,38 @@
     form.classList.add('is-hidden');
   };
 
-  window.form = me;
+  me.isValid = function() {
+    var requiredFields = {
+      allFields: document.querySelectorAll('[data-valid="required"]'),
+      email: document.querySelector('[data-email]').value,
+      phone: document.querySelector('[data-number]').value
+    };
+
+    if(!me.isAllCompleted(requiredFields.allFields)) {
+      console.log('Заполните все поля');
+      return false;
+    } else if(!wyless.validation.isEmail(requiredFields.email)) {
+      console.log('Wrong email');
+      return false;
+    } else if(!wyless.validation.isNumber(requiredFields.phone)) {
+      console.log('Wrong phone number');
+      return false;
+    }
+    return true;
+  };
+
+  me.isAllCompleted = function(data) {
+    var result = true;
+
+    for (var i = 0; i < data.length; i++) {
+      if (!wyless.validation.isNotEmpty(data[i].value)) {
+        result = false;
+        break;
+      }
+    }
+
+    return result;
+  }
+
+  wyless.form = me;
 }());
